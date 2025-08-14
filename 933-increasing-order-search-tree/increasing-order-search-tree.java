@@ -10,7 +10,7 @@ class Solution {
         while (!st.isEmpty()) {
             TreeNode next = st.pop();
             next.left = null;
-            next.right = null; // clear old links
+            next.right = null; 
             curr.right = next;
             curr = next;
         }
