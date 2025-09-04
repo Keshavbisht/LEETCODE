@@ -27,8 +27,7 @@ class Solution {
         int left = helper(root.left);
         int right = helper(root.right);
 
-        maxi = Math.max(maxi, Math.max(root.val + left + right,
-                        Math.max(root.val + left, root.val + right)));
+        maxi = Math.max(maxi, Math.max(root.val + left + right, Math.max(root.val + left, root.val + right)));
         maxi = Math.max(maxi, root.val);
 
         return Math.max(root.val, Math.max(root.val + left, root.val + right));
