@@ -5,7 +5,7 @@ class Solution {
         int a = 0;
         int b = -1;
         int ans = 0;
-        int maxi = 0;
+        // int maxi = 0;
 
         int n = s.length();
         while(b<n-1){
