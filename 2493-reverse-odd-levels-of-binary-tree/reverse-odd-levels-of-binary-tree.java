@@ -14,25 +14,21 @@
  * }
  */
 class Solution {
-    
     public TreeNode reverseOddLevels(TreeNode root) {
-        if(root == null) return null;
-        helper(root.left,root.right, 1);
+        helper(root.left, root.right, 1);
         return root;
     }
-    public void helper(TreeNode root1,TreeNode root2, int level){
-        if(root1 == null || root2==null) return;
-        if(level%2 != 0){
-            
-            int temp = root1.val;
-            root1.val = root2.val;
-            root2.val = temp;
-            
-            
+    public void helper(TreeNode left,TreeNode right, int level){
+        if(left == null) return;
+
+        if(level %2 != 0){
+            int temp = left.val;
+            left.val = right.val;
+            right.val = temp;
         }
-        helper(root1.left,root2.right, level+1);
-        helper(root1.right,root2.left, level +1);
+        helper(left.left, right.right, level+1);
+        helper(left.right, right.left, level+1);
+
         return;
     }
-
 }
