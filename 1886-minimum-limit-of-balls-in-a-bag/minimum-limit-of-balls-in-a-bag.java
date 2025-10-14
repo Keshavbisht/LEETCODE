@@ -6,7 +6,7 @@ class Solution {
             high = Math.max(high, nums[i]);
         }
         int ans = high;
-        int maxi = high;
+        // int maxi = high;
 
         while(low<= high){
             int mid = low + (high-low)/2;
