@@ -1,54 +1,54 @@
 class Solution {
-    public int numEnclaves(int[][] board) {
-        int n= board.length;
-        int m = board[0].length;
+    public int numEnclaves(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+
         int[][] vis = new int[n][m];
-
+        for(int[] itr: vis){
+            Arrays.fill(itr, -1);
+        }
         Queue<int[]> q = new LinkedList<>();
-        for(int a = 0; a<n; a++){
-            for(int b = 0; b<m; b++){
-                if(a!=0 && a != n-1 && b!= 0 && b!=m-1) continue;
+        for(int i = 0; i< n; i++){
+            for(int j = 0; j< m; j++){
+                if(i != 0 && i!=n-1 && j!=0 && j!=m-1) continue;
 
-                if(vis[a][b] == 0 && board[a][b] == 1){
-                    q.add(new int[]{a,b});
-                    vis[a][b] = 1;
+                if(grid[i][j] == 1){
+                    q.add(new int[]{i,j});
+                    vis[i][j] = 1;
                 }
             }
         }
 
         while(!q.isEmpty()){
-
             int[] curr = q.remove();
-
             int i = curr[0];
             int j = curr[1];
 
-            if(i-1>=0 && vis[i-1][j] == 0 && board[i-1][j] == 1){
+            if(i-1 >=0 && vis[i-1][j] == -1 && grid[i-1][j] == 1){
+                q.add(new int[]{i-1, j});
                 vis[i-1][j] = 1;
-                q.add(new int[]{i-1,j});
             }
-            if(i+1<n && vis[i+1][j] == 0 && board[i+1][j] == 1){
-                vis[i+1][j] = 1;
-                q.add(new int[]{i+1,j});
+            if(i+1 <n && vis[i+1][j] == -1 && grid[i+1][j] == 1){
+                q.add(new int[]{i+1, j});
+                vis[i+1][j] =1;
             }
-            if(j-1>=0 && vis[i][j-1] == 0 && board[i][j-1] == 1){
+            if(j-1 >=0 && vis[i][j-1] == -1 && grid[i][j-1] == 1){
+                q.add(new int[]{i, j-1});
                 vis[i][j-1] = 1;
-                q.add(new int[]{i,j-1});
             }
-            if(j+1<m && vis[i][j+1] == 0 && board[i][j+1] == 1){
-                vis[i][j+1] = 1;
-                q.add(new int[]{i,j+1});
+            if(j+1 <m && vis[i][j+1] == -1 && grid[i][j+1] == 1){
+                q.add(new int[]{i, j+1});
+                vis[i][j+1] =1;
             }
         }
-        int count = 0;
+        int ans = 0;
         for(int i = 0; i< n; i++){
             for(int j = 0; j< m; j++){
-                if(vis[i][j] != 1 && board[i][j] == 1){
-                    board[i][j] = 0;
-                    count++;
+                if(grid[i][j] == 1 && vis[i][j] == -1){
+                    ans++;
                 }
             }
         }
-        return count;
+        return ans;
     }
 }
