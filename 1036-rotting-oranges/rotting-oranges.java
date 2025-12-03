@@ -1,79 +1,56 @@
 class Solution {
     public int orangesRotting(int[][] grid) {
-        List<List<Integer>> start = new ArrayList<>();
-        int m = grid.length;
-        int n = grid[0].length;
-
-        for(int i = 0; i< m; i++){
-            for(int j = 0; j< n; j++){
+        int n = grid.length;
+        int m = grid[0].length;
+        Queue<int[]> q = new LinkedList<>();
+        for(int i = 0; i< grid.length; i++){
+            for(int j = 0; j< grid[0].length; j++){
                 if(grid[i][j] == 2){
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(i);
-                    temp.add(j);
-                    start.add(temp);
+                    q.add(new int[]{i,j});
                 }
             }
         }
-
-
-        int ans = bfs(start, grid, m, n);
-        for(int a = 0; a< m; a++){
-            for(int b = 0; b< n; b++){
-                if(grid[a][b] == 1) return -1;
+        q.add(new int[]{-2,-2});
+        int ans = 0;
+        int[] dx = new int[]{1,-1,0,0};
+        int[] dy = new int[]{0,0,-1,1};
+        while(!q.isEmpty()){
+            int[] curr = q.remove();
+            int i = curr[0];
+            int j = curr[1];
+            if(i == -2 && j==-2){
+                if(!q.isEmpty()){
+                    q.add(new int[]{-2,-2});
+                    ans++;
+                }
+            }
+            else{
+                if(i-1 >= 0 && grid[i-1][j] == 1){
+                    grid[i-1][j] = -1;
+                    q.add(new int[]{i-1,j});
+                }
+                if(i+1 < n  && grid[i+1][j] == 1){
+                    grid[i+1][j] = -1;
+                    q.add(new int[]{i+1,j});
+                }
+                if(j+1 < m  && grid[i][j+1] == 1){
+                    grid[i][j+1] = -1;
+                    q.add(new int[]{i,j+1});
+                }
+                if(j-1 >=0  && grid[i][j-1] == 1){
+                    grid[i][j-1] = -1;
+                    q.add(new int[]{i,j-1});
+                }
+            }
+        }
+        for(int i = 0; i< grid.length; i++){
+            for(int j = 0; j< grid[0].length; j++){
+                if(grid[i][j] == 1){
+                    return -1;
+                }
             }
         }
         return ans;
 
-
-    }
-    public int bfs(List<List<Integer>> start, int[][] grid, int m, int n){
-        Queue<List<Integer>> q = new LinkedList<>();
-        for(int a = 0; a< start.size(); a++){
-            q.add(start.get(a));
-        }
-        q.add(null);
-        int time = 0;
-        while(!q.isEmpty()){
-            List<Integer> curr = q.remove();
-            if(curr == null){
-                if(q.isEmpty()) return time;
-                time++;
-                q.add(null);
-            }
-            else{
-                int i = curr.get(0);
-                int j = curr.get(1);
-                if(i-1 >= 0 && grid[i-1][j] == 1){
-                    grid[i-1][j] = 2;
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(i-1);
-                    temp.add(j);
-                    q.add(temp);
-                }
-                if(i+1 <m && grid[i+1][j] == 1){
-                    grid[i+1][j] = 2;
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(i+1);
-                    temp.add(j);
-                    q.add(temp);
-                }
-                if(j-1 >= 0 && grid[i][j-1] == 1){
-                    grid[i][j-1] = 2;
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(i);
-                    temp.add(j-1);
-                    q.add(temp);
-                }
-                if(j+1 <n && grid[i][j+1] == 1){
-                    grid[i][j+1] = 2;
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(i);
-                    temp.add(j+1);
-                    q.add(temp);
-                }
-            }
-        }
-        
-        return time;
     }
 }
