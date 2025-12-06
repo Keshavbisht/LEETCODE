@@ -1,42 +1,40 @@
 class Solution {
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
-        // adjacency list
+    boolean[] vis;
+    boolean[] rec;
+    public boolean canFinish(int V, int[][] arr) {
+        
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < numCourses; i++) {
+        for(int i = 0; i< V; i++){
             adj.add(new ArrayList<>());
         }
+        for(int i = 0; i< arr.length; i++){
+            int u = arr[i][0];
+            int v = arr[i][1];
 
-        // indegree array
-        int[] indegree = new int[numCourses];
-
-        // build graph
-        for (int i = 0; i < prerequisites.length; i++) {
-            int u = prerequisites[i][1];
-            int v = prerequisites[i][0];
-            adj.get(u).add(v);
-            indegree[v]++;
+            adj.get(v).add(u);
         }
 
-        // queue for BFS
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < numCourses; i++) {
-            if (indegree[i] == 0) {
-                q.add(i);
+        vis = new boolean[V];
+        rec = new boolean[V];
+
+        for(int i = 0; i< V; i++){
+            if(!vis[i]){
+                if(!helper(i, adj)) return false;
             }
         }
+        return true;
+    }
+    public boolean helper(int ind, ArrayList<ArrayList<Integer>> adj){
+        vis[ind] = true;
+        rec[ind] = true;
 
-        int count = 0;
-        while (!q.isEmpty()) {
-            int node = q.poll();
-            count++;
-            for (int it : adj.get(node)) {
-                indegree[it]--;
-                if (indegree[it] == 0) {
-                    q.add(it);
-                }
+        for(int i = 0; i< adj.get(ind).size(); i++){
+            if(rec[adj.get(ind).get(i)] == true) return false;
+            if(!vis[adj.get(ind).get(i)]){
+                if(!helper(adj.get(ind).get(i), adj)) return false;
             }
         }
-
-        return count == numCourses;
+        rec[ind] = false;
+        return true;
     }
 }
