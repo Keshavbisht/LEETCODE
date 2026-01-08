@@ -1,28 +1,23 @@
 class Solution {
     public int characterReplacement(String s, int k) {
         HashMap<Character, Integer> map = new HashMap<>();
+        int pnt1 = 0;
+        int pnt2 = -1;
 
-        int a = 0;
-        int b = -1;
-        int ans = 0;
-        // int maxi = 0;
-
-        int n = s.length();
-        while(b<n-1){
-            b++;
-            char temp = s.charAt(b);
-            if(!map.containsKey(temp)){
-                map.put(temp, 1);
+        int ans = -1;
+        while(pnt2<s.length()-1){
+            pnt2++;
+            if(!map.containsKey(s.charAt(pnt2))){
+                map.put(s.charAt(pnt2), 1);
             }
             else{
-                map.put(temp, map.get(temp)+1);
+                map.put(s.charAt(pnt2), map.get(s.charAt(pnt2))+1);
             }
-            if(((b-a+1) - Collections.max(map.values()) ) > k){
-                map.put(s.charAt(a), map.get(s.charAt(a)) -1);
-                a++;
-
+            if(( (pnt2 - pnt1 + 1) - Collections.max(map.values()) ) > k){
+                map.put(s.charAt(pnt1), map.get(s.charAt(pnt1))-1);
+                pnt1++;
             }
-            ans = Math.max(ans,b-a+1 );
+            ans = Math.max(ans, pnt2 - pnt1 +1);
         }
         return ans;
     }
