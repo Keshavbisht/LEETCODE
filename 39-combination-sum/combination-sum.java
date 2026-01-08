@@ -1,22 +1,29 @@
 class Solution {
-    public List<List<Integer>> combinationSum(int[] arr, int target) {
-        List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> temp = new ArrayList<>();
-        helper(0, 0, arr, target, temp, ans);
-        return ans;
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> arrFinal = new ArrayList<>();
+        int i = 0;
+        List<Integer> arr  = new ArrayList<>();
+        recursion(i, target,candidates, arr, arrFinal);
+        return arrFinal;
     }
-    public void helper(int ind,int total, int[] arr, int target, List<Integer> temp, List<List<Integer>> ans){
-        if(total > target || ind>= arr.length){
+    public void recursion(int i, int target, int[] candidates, List<Integer> arr, List<List<Integer>> arrFinal){
+        if(i>= candidates.length || target<0 ) return;
+        if(target==0){
+            arrFinal.add(new ArrayList<>(arr));
             return;
         }
-        if(total == target){
-            if(!ans.contains(temp)){
-                ans.add(new ArrayList<>(temp));
-            }
-        }
-        temp.add(arr[ind]);
-        helper(ind, total+arr[ind], arr, target, temp, ans);
-        temp.remove(temp.size()-1);
-        helper(ind+1, total, arr, target, temp, ans);
+        // if(candidates[i] == target){
+        //     arr.add(candidates[i]);
+        //     arrFinal.add(new ArrayList<>(arr));
+        //     return;
+        // }
+        
+        // if(candidates[i] > target) return;
+        
+        arr.add(candidates[i]);
+        recursion(i, target-candidates[i],candidates, arr, arrFinal);
+        arr.remove(arr.size()-1);
+        recursion(i+1, target,candidates, arr, arrFinal);
+        
     }
 }
