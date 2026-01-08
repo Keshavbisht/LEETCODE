@@ -22,7 +22,7 @@ class Solution {
     public boolean palindrome(String st){
         StringBuilder sb = new StringBuilder(st);
         String a= sb.reverse().toString();
-        System.out.println(sb.reverse().toString());
+        // System.out.println(sb.reverse().toString());
         if(st.equals(a)) return true;
         return false;
     }
