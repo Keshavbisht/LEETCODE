@@ -1,22 +1,20 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        return helper(nums, goal) - helper(nums, goal-1);
-    }
-    int helper(int[] nums, int goal){
-        int n = nums.length;
-        int a =  0;
-        int b = -1;
-
-        int temp = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int prefix = 0;
         int ans = 0;
-        while(b < n-1){
-            b++;
-            temp = temp+ nums[b];
-            while(a<=b && temp > goal){
-                temp = temp - nums[a];
-                a++;
+        for(int i = 0; i< nums.length; i++){
+            prefix = prefix + nums[i];
+            if(map.containsKey(prefix - goal)){
+                ans = ans + map.get(prefix - goal);
             }
-            ans += b-a+1;
+            if(map.containsKey(prefix)){
+                map.put(prefix , map.get(prefix)+1);
+            }
+            else{
+                map.put(prefix, 1);
+            }
         }
         return ans;
     }
