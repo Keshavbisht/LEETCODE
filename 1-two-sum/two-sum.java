@@ -20,6 +20,7 @@ class Solution {
                 point1++;
             }
         }
+        
         return new int[]{};
         
     }
