@@ -1,17 +1,24 @@
 class Solution {
     public int eraseOverlapIntervals(int[][] intervals) {
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
-
+        PriorityQueue<int[]> pq= new PriorityQueue<>((a,b)-> a[1] - b[1]);
+        for(int i = 0; i< intervals.length; i++){
+            pq.add(intervals[i]);
+        }
         int ans = 0;
-        int prevEnd = intervals[0][1];
-        for(int i = 1; i< intervals.length; i++){
-            System.out.print(intervals[i][0]);
-            System.out.println(intervals[i][1]);
-            if(intervals[i][0] < prevEnd){
-                ans++;
+        int curr = Integer.MIN_VALUE;
+        while(!pq.isEmpty()){
+            int[] temp = pq.remove();
+            if(curr == Integer.MIN_VALUE){
+                curr =temp[1];
             }
             else{
-                prevEnd  = Math.max(intervals[i][1], prevEnd);
+                if(temp[0] < curr){
+                    ans++;
+                }
+                else{
+                    curr = Math.max(curr, temp[1]);
+                }
+            
             }
         }
         return ans;
