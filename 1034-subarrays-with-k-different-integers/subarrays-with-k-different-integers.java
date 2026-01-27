@@ -1,35 +1,39 @@
 class Solution {
     public int subarraysWithKDistinct(int[] nums, int k) {
-        return helper(nums, k, nums.length) - helper(nums, k-1, nums.length);
+        return helper(nums, k) - helper(nums, k-1);
     }
-    public int helper(int[] nums, int k, int n){
-        int a = 0;
-        int b= -1;
+    public int helper(int[] nums, int k){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int pnt1 = 0;
+        int pnt2 = -1;
+        int count = 0;
         int ans = 0;
 
-        HashMap<Integer, Integer> map = new HashMap<>();
-        
-        while(b<n-1){
-            b++;
-            if(map.containsKey(nums[b])){
-                map.put(nums[b], map.get(nums[b])+1); 
+        while(pnt2 < nums.length -1){
+            pnt2++;
+            int curr = nums[pnt2];
+            if(map.containsKey(nums[pnt2])){
+                map.put(curr, map.get(curr)+1);
             }
             else{
-                map.put(nums[b], 1);
+                map.put(curr, 1);
+                count++;
             }
-            while(a<=b && map.size() > k){
-                int temp = map.get(nums[a]);
-                if(temp -1 <=0){
-                    map.remove(nums[a]);
+
+            while(count >k){
+                int curr2 = nums[pnt1];
+                map.put(curr2, map.get(curr2)-1);
+                if(map.get(curr2) <= 0){
+                    map.remove(curr2);
+                    count--;
                 }
-                else{
-                    map.put(nums[a], temp-1);
-                }
-                a++;
+                pnt1++;
             }
-            ans= ans +(b-a+1);
+            ans = ans +(pnt2 - pnt1 +1);
+
 
         }
         return ans;
-    }
+    } 
+
 }
