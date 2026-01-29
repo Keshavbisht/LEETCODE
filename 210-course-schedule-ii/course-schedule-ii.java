@@ -1,9 +1,13 @@
 class Solution {
+    boolean[] vis;
+    int[] ans;
+    Stack<Integer> st;
     public int[] findOrder(int n, int[][] arr) {
         // BFS
-        int[] ans =new int[n];
-        Queue<Integer> q = new LinkedList<>();
-        int[] inorder = new int[n];
+        ans =new int[n];
+        vis = new boolean[n];
+        st = new Stack<>();
+
 
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
         for(int i = 0; i<n; i++){
@@ -14,29 +18,36 @@ class Solution {
             int v = arr[i][0];
 
             adj.get(u).add(v);
-            inorder[v]++;
         }
-
+        boolean flag[] = new boolean[n];
         for(int i = 0; i< n; i++){
-            if(inorder[i] == 0){
-                q.add(i);
+            if(!vis[i]){
+                if(dfs(i, adj, flag)) return new int[]{};
             }
         }
-        int count = -1;
-        while(!q.isEmpty()){
-            int curr = q.remove();
-            count++;
-            ans[count] = curr;
-
-            for(int i = 0; i< adj.get(curr).size(); i++){
-                int temp = adj.get(curr).get(i);
-                inorder[temp]--;
-                if(inorder[temp] == 0){
-                    q.add(temp);
-                }
-
-            }
+        for(int i = 0; i< n; i++){
+            ans[i] = st.pop();
         }
-        return (count == n-1) ? ans : new int[]{};
+        return ans;
+
+        
     }
+
+    public boolean dfs(int ind, ArrayList<ArrayList<Integer>> adj, boolean flag[]){
+        if(flag[ind] ==true) return true;
+        flag[ind] = true;
+        vis[ind] = true;
+
+        for(int i = 0; i< adj.get(ind).size(); i++ ){
+            int temp = adj.get(ind).get(i);
+            if(flag[temp] == true) return true;
+            if(!vis[temp]){
+                if(dfs(temp, adj, flag)) return true;
+            }
+        }
+        flag[ind] = false;
+        st.add(ind);
+        return false;
+    }
+    
 }
