@@ -1,40 +1,69 @@
 class Solution {
+    int[] indegree;
     boolean[] vis;
-    boolean[] rec;
-    public boolean canFinish(int V, int[][] arr) {
-        
+    public boolean canFinish(int numCourses, int[][] arr) {
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for(int i = 0; i< V; i++){
+        indegree = new int[numCourses];
+        vis = new boolean[numCourses];
+
+        for(int i = 0; i< numCourses; i++){
             adj.add(new ArrayList<>());
         }
+
         for(int i = 0; i< arr.length; i++){
-            int u = arr[i][0];
-            int v = arr[i][1];
-
-            adj.get(v).add(u);
+            adj.get(arr[i][1]).add(arr[i][0]);
+            indegree[arr[i][0]]++;
         }
+        
+        // CALLING DFS FOR CYCLE CHECK
+        // for(int i= 0; i< numCourses; i++){
+        //     boolean[] flag = new boolean[numCourses];
+        //     if(!vis[i]){
+        //         if(dfs(i, adj, flag)) return false;
+        //     }
+        // }
 
-        vis = new boolean[V];
-        rec = new boolean[V];
-
-        for(int i = 0; i< V; i++){
-            if(!vis[i]){
-                if(!helper(i, adj)) return false;
+        // CALLING BFS FOR CYCLE CHECK
+        int count = 0;
+        Queue<Integer> q = new LinkedList<>();
+        for(int i = 0; i< numCourses; i++){
+            if(indegree[i] == 0){
+                q.add(i);
+                count++;
             }
         }
-        return true;
+
+        while(!q.isEmpty()){
+            int curr = q.remove();
+            
+            
+            for(int i = 0; i< adj.get(curr).size(); i++){
+                // if(adj.get(curr).size() == 0) break;
+                int temp = adj.get(curr).get(i);
+                indegree[temp]--;
+                if(indegree[temp] == 0){
+                    q.add(temp);
+                    count++;
+                }
+            }
+        }
+        System.out.println(count);
+        return (count == numCourses);
+
+
     }
-    public boolean helper(int ind, ArrayList<ArrayList<Integer>> adj){
+    public boolean dfs(int ind, ArrayList<ArrayList<Integer>> adj, boolean[] flag){
+        if(flag[ind] == true) return true;
         vis[ind] = true;
-        rec[ind] = true;
+        flag[ind] = true;
 
-        for(int i = 0; i< adj.get(ind).size(); i++){
-            if(rec[adj.get(ind).get(i)] == true) return false;
-            if(!vis[adj.get(ind).get(i)]){
-                if(!helper(adj.get(ind).get(i), adj)) return false;
-            }
+        for(int i=0; i< adj.get(ind).size(); i++){
+            int temp = adj.get(ind).get(i);
+            
+            if(dfs(temp, adj, flag)) return true;
+            
         }
-        rec[ind] = false;
-        return true;
+        flag[ind]=false;
+        return false;
     }
 }
