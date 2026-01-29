@@ -1,47 +1,42 @@
 class Solution {
-    Stack<Integer> st;
-    boolean[] vis;
-    boolean[] check;
-    public int[] findOrder(int numCourses, int[][] arr) {
-        st = new Stack<>();
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for(int i = 0; i< numCourses; i++){
-            adj.add(new ArrayList<>());
-        }
-        for(int i = 0; i< arr.length; i++){
-            int u = arr[i][0];
-            int v = arr[i][1];
-            adj.get(v).add(u);
-        }
-        vis = new boolean[numCourses];
-        check = new boolean[numCourses];
-        for(int i = 0; i< numCourses; i++){
-            if(!vis[i]){
-                if(!helper(i, adj)) return new int[]{};
-            }
-        }
-        int[] ans = new int[st.size()];
-        int i = 0;
-        while(!st.isEmpty()){
-            ans[i] = st.pop();
-            i++;
-        }
-        return ans;
+    public int[] findOrder(int n, int[][] arr) {
+        // BFS
+        int[] ans =new int[n];
+        Queue<Integer> q = new LinkedList<>();
+        int[] inorder = new int[n];
 
-    }
-    public boolean helper(int ind, ArrayList<ArrayList<Integer>> adj){
-        vis[ind] = true;
-        check[ind] = true;
-        for(int i = 0; i< adj.get(ind).size(); i++){
-            if(check[adj.get(ind).get(i)]) return false;
-            
-            
-            if(!vis[adj.get(ind).get(i)]){
-                if(!helper(adj.get(ind).get(i), adj)) return false;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0; i<n; i++){
+            adj.add(new ArrayList<>());
+        } 
+        for(int i = 0; i< arr.length; i++){
+            int u = arr[i][1];
+            int v = arr[i][0];
+
+            adj.get(u).add(v);
+            inorder[v]++;
+        }
+
+        for(int i = 0; i< n; i++){
+            if(inorder[i] == 0){
+                q.add(i);
             }
         }
-        st.push(ind);
-        check[ind] = false;
-        return true;
+        int count = -1;
+        while(!q.isEmpty()){
+            int curr = q.remove();
+            count++;
+            ans[count] = curr;
+
+            for(int i = 0; i< adj.get(curr).size(); i++){
+                int temp = adj.get(curr).get(i);
+                inorder[temp]--;
+                if(inorder[temp] == 0){
+                    q.add(temp);
+                }
+
+            }
+        }
+        return (count == n-1) ? ans : new int[]{};
     }
 }
