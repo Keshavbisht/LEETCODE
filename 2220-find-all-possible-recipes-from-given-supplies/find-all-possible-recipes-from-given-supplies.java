@@ -3,7 +3,7 @@ class Solution {
     // HashSet<String> recipesCheck;
     HashMap<String, List<String>> map;
     HashMap<String, Integer> state;
-    // boolean vis[];
+    boolean vis[];
     public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
         set = new HashSet<>();
         map = new HashMap<>();
