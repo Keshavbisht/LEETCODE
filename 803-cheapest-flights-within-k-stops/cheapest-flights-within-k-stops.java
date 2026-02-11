@@ -1,49 +1,45 @@
 class Solution {
+    Integer[][] dp;
+
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
 
         List<List<int[]>> adj = new ArrayList<>();
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             adj.add(new ArrayList<>());
         }
 
-        for(int[] f : flights){
+        for (int[] f : flights) {
             adj.get(f[0]).add(new int[]{f[1], f[2]});
         }
 
-        int[] dist = new int[n];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[src] = 0;
+        dp = new Integer[n][k + 2];
 
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{src, 0});
+        int ans = dfs(src, dst, k + 1, adj);
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
 
-        int stops = 0;
+    private int dfs(int node, int dst, int stops,
+                    List<List<int[]>> adj) {
 
-        while(!queue.isEmpty() && stops <= k){
-            int size = queue.size();
+        if (node == dst) return 0;
+        if (stops == 0) return Integer.MAX_VALUE;
 
-            int[] tempDist = Arrays.copyOf(dist, n);
+        if (dp[node][stops] != null)
+            return dp[node][stops];
 
-            for(int i = 0; i < size; i++){
-                int[] curr = queue.poll();
-                int node = curr[0];
-                int cost = curr[1];
+        int minCost = Integer.MAX_VALUE;
 
-                for(int[] nei : adj.get(node)){
-                    int next = nei[0];
-                    int price = nei[1];
+        for (int[] nei : adj.get(node)) {
+            int next = nei[0];
+            int price = nei[1];
 
-                    if(cost + price < tempDist[next]){
-                        tempDist[next] = cost + price;
-                        queue.offer(new int[]{next, tempDist[next]});
-                    }
-                }
+            int cost = dfs(next, dst, stops - 1, adj);
+
+            if (cost != Integer.MAX_VALUE) {
+                minCost = Math.min(minCost, price + cost);
             }
-
-            dist = tempDist;
-            stops++;
         }
 
-        return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
+        return dp[node][stops] = minCost;
     }
 }
