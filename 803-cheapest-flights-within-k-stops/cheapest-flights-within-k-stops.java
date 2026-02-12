@@ -15,7 +15,7 @@ class Solution {
         return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 
-    private int dfs(int node, int dst, int stops, List<List<int[]>> adj) {
+    public int dfs(int node, int dst, int stops, List<List<int[]>> adj) {
 
         if (node == dst) return 0;
         if (stops == 0) return Integer.MAX_VALUE;
