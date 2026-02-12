@@ -7,19 +7,15 @@ class Solution {
         for (int i = 0; i < n; i++) {
             adj.add(new ArrayList<>());
         }
-
         for (int[] f : flights) {
             adj.get(f[0]).add(new int[]{f[1], f[2]});
         }
-
         dp = new Integer[n][k + 2];
-
         int ans = dfs(src, dst, k + 1, adj);
         return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 
-    private int dfs(int node, int dst, int stops,
-                    List<List<int[]>> adj) {
+    private int dfs(int node, int dst, int stops, List<List<int[]>> adj) {
 
         if (node == dst) return 0;
         if (stops == 0) return Integer.MAX_VALUE;
