@@ -1,25 +1,23 @@
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        int prefix = 0;
         int ans = Integer.MAX_VALUE;
-        for(int i = 0; i< nums.length; i++){
-            prefix = prefix + nums[i];
-            pq.add(prefix);
-            if(prefix >=target){
-                while(prefix - target > pq.peek()){
-                    pq.remove();
+        int n = nums.length;
+        int prefix = 0;
+        int pnt1 = 0;
+        for(int pnt2 = 0; pnt2 < n; pnt2++){
+            prefix += nums[pnt2];
+
+            // if(prefix >= target){
+            //     ans = Math.min(ans, pnt2 - pnt1 +1);
+            // }
+            while(prefix >= target){
+                if(prefix >= target){
+                    ans = Math.min(ans, pnt2 - pnt1 +1);
                 }
-                ans = Math.min(ans, pq.size());
+                prefix -= nums[pnt1];
+                pnt1++;
             }
-            if(map.containsKey(prefix - target)){
-                ans = Math.min(ans, i - map.get(prefix -target));
-            }
-            map.put(prefix, i);
-             
         }
         return (ans != Integer.MAX_VALUE) ? ans : 0;
     }
-
 }
