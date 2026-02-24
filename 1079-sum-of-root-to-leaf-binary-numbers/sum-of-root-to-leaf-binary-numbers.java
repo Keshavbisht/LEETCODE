@@ -14,16 +14,11 @@
  * }
  */
 class Solution {
-    ArrayList<String> arr;
     int ans = 0;
     public int sumRootToLeaf(TreeNode root) {
-        arr= new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         helper(root, sb);
         return ans;
-
-
-
     }
     public TreeNode helper(TreeNode root, StringBuilder sb){
         if(root == null) return null;
