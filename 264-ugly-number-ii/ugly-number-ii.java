@@ -1,28 +1,29 @@
 class Solution {
     public int nthUglyNumber(int n) {
-        int[] ans= new int[n+1];
-        int pnt2=1 ,pnt3 = 1, pnt5 = 1;
-        ans[1] = 1;
-        for(int i = 2; i<=n; i++){
-
-            int temp1 = ans[pnt2]*2;
-            int temp2 = ans[pnt3]*3;
-            int temp3 = ans[pnt5]*5;
+        int[] ans = new int[n+1];
+        ans[0] = 1;
+        // ans[1] = 1;
+        int pnt_2, pnt_3, pnt_5;
+        pnt_2=pnt_3=pnt_5= 0;
+        for(int i = 1; i<= n; i++){
+            int temp1 = ans[pnt_2] * 2;
+            int temp2 = ans[pnt_3] * 3;
+            int temp3 = ans[pnt_5] * 5;
 
             int mini = Math.min(temp1, Math.min(temp2, temp3));
-            ans[i] = mini;
-            if(mini == temp1){
-                pnt2++;
+            ans[i] = mini; 
+
+            if(temp1 == mini){
+                pnt_2++;
             }
-            if(mini == temp2){
-                pnt3++;
+            if(temp2 == mini){
+                pnt_3++;
             }
-            if(mini == temp3){
-                pnt5++;
+            if(temp3 == mini){
+                pnt_5++;
             }
         }
-        return ans[n];
-
+        return ans[n-1];
+        
     }
-    
 }
