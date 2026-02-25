@@ -1,19 +1,17 @@
 class Solution {
     public int rob(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n+1];
+        int[] dp = new int[nums.length +1];
         Arrays.fill(dp, -1);
-        return Math.max(helper(n-1, nums, dp), helper(n-2, nums, dp));
+        
+        return Math.max(helper(nums.length-1, nums, dp), helper(nums.length-2, nums, dp));
     }
-    public int helper(int n, int[] nums, int[] dp){
-        if(n<=0) return nums[0];
-        if(n==1) return nums[1];
-        // if(n<0) return nums[0];
-        if(dp[n] != -1) return dp[n];
+    public int helper(int ind, int[] nums, int[] dp){
+        
+        if(ind < 0) return 0;
+        if(dp[ind] != -1) return dp[ind];
+        if(ind == 0) return nums[0];
+        // if(ind == 1) return nums[1];
 
-        int a = helper(n-2, nums, dp) +nums[n];
-        int b = helper(n-3, nums, dp) +nums[n];
-        return dp[n] = Math.max(a,b);
-
+        return dp[ind] = Math.max(helper(ind - 2, nums, dp), helper(ind-3, nums, dp)) + nums[ind];
     }
 }
