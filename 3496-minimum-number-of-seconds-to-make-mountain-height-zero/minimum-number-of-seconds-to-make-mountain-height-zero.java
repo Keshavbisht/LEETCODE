@@ -1,6 +1,7 @@
 class Solution {
     public long minNumberOfSeconds(int height, int[] times) {
-        long lo = 1, hi = 10000000000000000L;
+        long lo = 1;
+        long hi = 10000000000000000L;
 
         while (lo < hi) {
             long mid = (lo + hi) >> 1;
