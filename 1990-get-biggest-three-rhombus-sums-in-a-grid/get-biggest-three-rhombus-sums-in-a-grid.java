@@ -29,16 +29,15 @@ class Solution {
 
                     long border = 0;
 
-                    // top -> right   (\)
+                    
                     border += diag1[rightR + 1][rightC + 1] - diag1[topR][topC];
 
-                    // right -> bottom (/)
+                    
                     border += diag2[bottomR + 1][bottomC] - diag2[rightR][rightC + 1];
 
-                    // left -> bottom  (\)
+                    
                     border += diag1[bottomR + 1][bottomC + 1] - diag1[leftR][leftC];
 
-                    // top -> left     (/)
                     border += diag2[leftR + 1][leftC] - diag2[topR][topC + 1];
 
                     // corners counted twice
