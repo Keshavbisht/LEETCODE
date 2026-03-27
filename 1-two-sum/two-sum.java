@@ -6,7 +6,6 @@ class Solution {
         int sum1 = 0;
         int[][] check = new int[point2 + 1][2];
         for(int i = 0; i< nums.length; i++){
-            //
             check[i][0] = nums[i];
             check[i][1] = i;
         }
