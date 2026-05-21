@@ -1,28 +1,33 @@
 class Solution {
+    int ans = 0;
     public int bagOfTokensScore(int[] tokens, int power) {
-        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         Arrays.sort(tokens);
+        int n = tokens.length;
         int pnt1 = 0;
-        int pnt2 = tokens.length-1;
-        int maxi = -1;
-        int ans = 0;
-        // if(tokens[0] > power) return 0;
-        while(pnt1 <= pnt2){
-            if(tokens[pnt1] <= power){
+        int pnt2 = n-1;
+        int score = 0;
+
+        while(pnt1<=pnt2){
+            if(power >= tokens[pnt1]){
                 power = power - tokens[pnt1];
-                ans++;
+                score +=1;
                 pnt1++;
-                maxi = Math.max(maxi, ans);
+                
             }
-            else if(ans >=1){
+            else if(score >=1){
+                
                 power = power + tokens[pnt2];
+                score -=1;
                 pnt2--;
-                ans--;
+                
             }
             else{
-                return (maxi>=0) ? maxi : 0;
+                pnt1++;
             }
+            System.out.println(power +" "+ score);
+            ans = Math.max(ans, score);
         }
-        return (maxi>=0) ? maxi : 0;
+        return ans;
     }
 }
