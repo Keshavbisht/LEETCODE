@@ -14,32 +14,27 @@
  * }
  */
 class Solution {
-    int sum1 = 0;
+    int ans = 0;
     public int sumEvenGrandparent(TreeNode root) {
-        if(root == null) return 0;
-        if(root.val %2 == 0){
-            helper(root.left,0, 1);
-            helper(root.right,0, 1);
-        }
-        else{
-            helper(root.left,0, 0);
-            helper(root.right,0, 0);
-        }
-        return sum1;
+        helper(root, 0, 0);
+        return ans;
     }
-    public void helper(TreeNode root, int grandParent, int parent){
-        if(root == null ) return ;
 
-        if(grandParent == 1){
-            sum1 = sum1 + root.val;
+    public void helper(TreeNode root, int gParent, int parent){
+        if(root == null) return;
+
+        if(gParent == 1){
+            ans += root.val;
         }
-        if(root.val %2==0){
+
+        if(root.val %2 == 0){
             helper(root.left, parent, 1);
             helper(root.right, parent, 1);
         }
         else{
-            helper(root.left,  parent, 0);
+            helper(root.left, parent, 0);
             helper(root.right, parent, 0);
         }
+
     }
 }
