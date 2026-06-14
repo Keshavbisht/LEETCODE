@@ -34,8 +34,8 @@ class Solution:
                 pnt1 = ind
                 mini = sum1
             
-        print(units)
-        print(units[pnt1])
+        # print(units)
+        # print(units[pnt1])
         
         if(len(units[pnt1]) >1 and len(units[pnt2]) >1):
             if(units[pnt1][1] > units[pnt2][1]):
