@@ -1,44 +1,50 @@
 class Solution {
-    public int minDays(int[] bloomDay, int m, int k) {
-        int low = -1;
-        int high = 1;
-        int ans = -1;
-        for(int i = 0; i< bloomDay.length; i++){
-            low = Math.min(low, bloomDay[i]);
-            high = Math.max(high, bloomDay[i]);
+    public int minDays(int[] nums, int m, int k) {
+        long low = 1;
+        long high = -1;
+
+        for(int i = 0; i< nums.length; i++){
+            high = Math.max(high, nums[i]);
         }
 
-        while(low<=high){
-            int mid = low + (high-low)/2;
+        if(m*k > nums.length) return -1;
+        long ans = -1;
+        // System.out.println("hi");
+        while(low <= high){
+            long mid = low + (high-low)/2;
 
-            boolean check =helper(bloomDay, m, k, mid);
-            if(check == true){
+            boolean flag = helper(mid, m, k, nums);
+            if(flag){
                 ans = mid;
                 high = mid-1;
-
             }
             else{
                 low = mid+1;
             }
-
         }
-        return ans;
+        return (int) ans;
     }
-    public boolean helper(int[] bloomDay, int m, int k , int mid){
-        int count = 0;
+
+    public boolean helper(long day, int m, int k, int[] nums){
         int ans = 0;
-        for(int i = 0; i< bloomDay.length; i++){
-            if(bloomDay[i] <= mid){
-                count++;
+        int tempK = 0;
+
+        for(int i = 0; i< nums.length; i++){
+
+            if(nums[i] <= day){
+                tempK++;
             }
             else{
-                count = 0;
+                tempK = 0;
             }
-            if(count == k){
-                ans++;
-                count = 0;
+
+            if(tempK == k){
+                m--;
+                tempK = 0;
             }
+            // if(m <= 0) return true;
         }
-        return (ans>=m) ? true : false;
+        if(m <= 0) return true;
+        return false;
     }
 }
