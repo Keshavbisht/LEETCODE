@@ -1,19 +1,26 @@
 class Solution {
-    public int uniquePathsWithObstacles(int[][] arr) {
-        int m = arr.length;
-        int n = arr[0].length;
-        int[][] dp = new int[m+1][n+1];
-        for(int[] itr:dp ){
+    int[][] dp;
+    public int uniquePathsWithObstacles(int[][] grid) {
+        if( grid[grid.length-1][grid[0].length-1] == 1) return 0;
+        dp = new int[grid.length][grid[0].length];
+        for(int[] itr: dp){
             Arrays.fill(itr, -1);
         }
-        return helper(m-1, n-1, arr, dp);
-
+        return helper(0,0, grid);
     }
-    public int helper(int i, int j, int[][] arr, int[][] dp){
-        if(i<0 || j<0 || arr[i][j] == 1) return 0;
-        if(i == 0 && j==0) return 1;
+    public int helper(int i, int j, int[][] grid){
+        if(i == grid.length-1 && j == grid[0].length-1) return 1;
+    
+        if(i < 0 || i >= grid.length || j < 0 || j>= grid[0].length ) return 0;
+        if(grid[i][j] == 1) return 0;
         if(dp[i][j] != -1) return dp[i][j];
 
-        return dp[i][j]= helper(i-1, j, arr,dp) + helper(i, j-1, arr, dp);
+        int a = helper(i+1, j, grid);
+        int b = helper(i, j+1, grid);
+
+        return dp[i][j] = a+b;
+
+
+
     }
 }
