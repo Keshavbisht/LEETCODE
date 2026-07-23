@@ -14,19 +14,16 @@
  * }
  */
 class Solution {
-    int dia = 0;
+    int maxi = 0;
     public int diameterOfBinaryTree(TreeNode root) {
         helper(root);
-        return dia;
+        return maxi;
     }
     public int helper(TreeNode root){
-        if(root == null ) return 0;
-
+        if(root== null) return 0;
         int left = helper(root.left);
         int right = helper(root.right);
-        dia = Math.max(dia, left+right);
+        maxi = Math.max(maxi, left+right);
         return Math.max(left, right) +1;
-
-        // return Math.max(temp, left+right);
     }
 }
