@@ -15,23 +15,33 @@
  */
 class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+
+        return helper(root, subRoot);
+    }
+    public boolean helper(TreeNode root, TreeNode head){
         if(root == null) return false;
+        // if(root.val == head.val) return ;
 
-        if(helper(root, subRoot)) return true;
+        boolean left = helper(root.left, head);
+        boolean right = helper(root.right, head);
+
+        return check(root, head) || left || right;
+
+    }
+    public boolean check(TreeNode root1, TreeNode root2){
+        // if(root1.leroot2.left == null || root2.right == null) return true;
+        
+        if((root1 == null && root2 == null ) || (root1 == null && root2 == null)) return true;
+        if(root1 == null || root2 == null) return false;
+        if(root1.val != root2.val) return false;
+
+
+        
+        return check(root1.left, root2.left) && check(root1.right, root2.right);
+
         
         
-        return isSubtree(root.left, subRoot) ||  isSubtree(root.right, subRoot); 
+
         
     }
-
-    public boolean helper(TreeNode root, TreeNode subRoot){
-        if(root == null && subRoot==null) return true;
-        if(root == null || subRoot == null) return false;
-        if(root.val != subRoot.val) return false;
-        
-
-        return helper(root.left, subRoot.left)&& helper(root.right, subRoot.right);
-    }
-
-
 }
