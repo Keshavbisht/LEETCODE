@@ -14,19 +14,20 @@
  * }
  */
 class Solution {
+    int ans = 0;
     public int sumNumbers(TreeNode root) {
-        return dfs(root, 0);
+        helper(root, "");
+        return ans;
     }
-
-    private int dfs(TreeNode node, int curr) {
-        if (node == null) return 0;
-        curr = curr * 10 + node.val;
-        
-        if (node.left == null && node.right == null) {
-            return curr;
+    public void helper(TreeNode root, String str){
+        if(root == null) return;
+        if(root.left == null && root.right == null){
+            str = str+ String.valueOf(root.val);
+            ans += Integer.parseInt(str);
         }
-
-        return dfs(node.left, curr) + dfs(node.right, curr);
+        // System.out.println(str+ String.valueOf(root.val));
+        helper(root.left, str + String.valueOf(root.val));
+        helper(root.right, str+ String.valueOf(root.val));
+        return;
     }
 }
-
