@@ -14,21 +14,31 @@
  * }
  */
 class Solution {
-    Queue<TreeNode> q =new LinkedList<>();
+    Queue<TreeNode> q;
     public void flatten(TreeNode root) {
-        dfs(root);
-
+        q = new LinkedList<>(); 
+        helper(root);
+        // TreeNode prev = null;
         while(!q.isEmpty()){
-            TreeNode temp = q.remove();
-            temp.left = null;
-            temp.right = q.peek();
+            TreeNode curr = q.remove();
+            if(q.isEmpty()){
+                curr.left = null;
+                curr.right = null;
+                break;
+            }
+            curr.right = q.peek();
+            curr.left = null;
+            
         }
+        // return root;
+
     }
-    public void dfs(TreeNode root){
+    public void helper(TreeNode root){
         if(root == null) return;
+
         q.add(root);
-        dfs(root.left);
-        dfs(root.right);
+        helper(root.left);
+        helper(root.right);
     }
     
 }
