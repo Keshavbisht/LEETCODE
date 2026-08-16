@@ -10,48 +10,43 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        ListNode pnt1;
-        ListNode pnt2;
-
-        ListNode curr;
-        ListNode prev;
-        ListNode future;
-
-        ListNode mid;
-
-        ListNode fast = head;
         ListNode slow = head;
+        ListNode fast = head;
 
-        while(fast != null && fast.next != null){
-            fast = fast.next.next;
+        while(fast != null && fast.next != null ){
             slow = slow.next;
+            fast = fast.next.next;
         }
-        mid = slow;
-        curr = slow.next;
-        prev = slow;
-        while(curr != null){
-            future = curr.next;
+        ListNode mid = slow;
+
+        ListNode head2 = reverse(slow, null);
+
+        ListNode temp1 = head;
+        ListNode temp2 = head2;
+        while(temp2 != mid && temp1 != mid){
+            ListNode future1 = temp1.next;
+            ListNode future2 = temp2.next;
+
+            temp1.next = temp2;
+            temp2.next = future1;
+            temp1 = future1;
+            temp2 = future2;
+        }
+        
+
+    }
+    public ListNode reverse(ListNode head, ListNode stop){
+        ListNode curr = head;
+        ListNode prev = null;
+        
+        while(curr != stop){
+            ListNode future = curr.next;
+
             curr.next = prev;
             prev = curr;
             curr = future;
         }
-        ListNode head2= prev;
-
-        pnt1 = head;
-        pnt2 = head2;
-
-        ListNode future1;
-        ListNode future2;
-        while(pnt1 != mid && pnt2 != mid){
-            future1 = pnt1.next;
-            future2 = pnt2.next;
-            pnt1.next = pnt2;
-            pnt2.next = future1;
-            pnt1 = future1;
-            pnt2 = future2;
-        }
-        mid.next = null;
-        
+        return prev;
 
     }
 }
