@@ -16,29 +16,20 @@
 class Solution {
     Queue<TreeNode> q;
     public void flatten(TreeNode root) {
-        q = new LinkedList<>(); 
-        helper(root);
-        // TreeNode prev = null;
-        while(!q.isEmpty()){
+        q = new LinkedList<>();
+        dfs(root);
+        q.add(null);
+        while(!q.isEmpty() && q.peek() != null){
             TreeNode curr = q.remove();
-            if(q.isEmpty()){
-                curr.left = null;
-                curr.right = null;
-                break;
-            }
-            curr.right = q.peek();
             curr.left = null;
-            
+            curr.right = q.peek();
         }
-        // return root;
-
     }
-    public void helper(TreeNode root){
+    public void dfs(TreeNode root){
         if(root == null) return;
 
         q.add(root);
-        helper(root.left);
-        helper(root.right);
+        dfs(root.left);
+        dfs(root.right);
     }
-    
 }
