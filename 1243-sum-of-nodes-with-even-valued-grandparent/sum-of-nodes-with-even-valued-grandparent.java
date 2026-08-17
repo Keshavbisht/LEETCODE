@@ -26,6 +26,7 @@ class Solution {
         if(gpar % 2 == 0){
             return root.val + left + right;
         }
+
         return left + right;
     }
 }
