@@ -13,40 +13,38 @@ class Solution {
         ListNode slow = head;
         ListNode fast = head;
 
-        while(fast != null && fast.next != null ){
+        while(fast!= null && fast.next != null){
             slow = slow.next;
             fast = fast.next.next;
         }
         ListNode mid = slow;
 
-        ListNode head2 = reverse(slow, null);
-
-        ListNode temp1 = head;
-        ListNode temp2 = head2;
-        while(temp2 != mid && temp1 != mid){
-            ListNode future1 = temp1.next;
-            ListNode future2 = temp2.next;
-
-            temp1.next = temp2;
-            temp2.next = future1;
-            temp1 = future1;
-            temp2 = future2;
-        }
-        
-
-    }
-    public ListNode reverse(ListNode head, ListNode stop){
-        ListNode curr = head;
+        ListNode curr = slow;
         ListNode prev = null;
-        
-        while(curr != stop){
+
+        while(curr != null){
             ListNode future = curr.next;
 
             curr.next = prev;
             prev = curr;
             curr = future;
         }
-        return prev;
+
+        ListNode head2 = prev;
+        ListNode temp1 = head;
+        ListNode temp2 = head2;
+
+        while(temp1 != mid && temp2 != mid){
+            ListNode future1 = temp1.next;
+            ListNode future2 = temp2.next;
+
+            temp1.next = temp2;
+            temp2.next = future1;
+
+            temp1 = future1;
+            temp2 = future2;
+        }
+        
 
     }
 }
