@@ -25,44 +25,41 @@ class Solution {
         }
     }
     public boolean isCousins(TreeNode root, int x, int y) {
-        
         Queue<Tuple> q = new LinkedList<>();
-        int level = 0;
-        q.add(new Tuple(root, null, level));
+
+        q.add(new Tuple(root, null, 0));
         q.add(null);
-        Tuple t1 = null;
-        Tuple t2 = null;
+
+        Tuple x1 = null;
+        Tuple y1 = null;
 
         while(!q.isEmpty()){
             Tuple curr = q.remove();
+
             if(curr == null){
-                if(t1 != null && t2 != null){
-                    if((t1.level == t2.level) && (t1.par.val != t2.par.val)) return true;
-                   
+                if(x1 != null && y1 == null) return false;
+                if(y1!= null && x1 == null) return false;
+                if(x1 != null && y1 != null){
+                    if(x1.par != y1.par) return true;
                 }
-                if(t1 != null || t2 != null) return false;
                 if(q.isEmpty()) return false;
                 q.add(null);
-                level++;
-                continue;
             }
             else{
                 if(curr.root.val == x){
-                    t1 = curr;
+                    x1 = curr;
                 }
                 if(curr.root.val == y){
-                    t2 = curr;
+                    y1 = curr;
                 }
                 if(curr.root.left != null){
-                    q.add(new Tuple(curr.root.left, curr.root, level));
+                    q.add(new Tuple(curr.root.left, curr.root, curr.level+1));
                 }
                 if(curr.root.right != null){
-                    q.add(new Tuple(curr.root.right, curr.root, level));
+                    q.add(new Tuple(curr.root.right, curr.root, curr.level+1));
                 }
             }
-            
         }
         return false;
     }
-    
 }
